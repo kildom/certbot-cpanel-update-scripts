@@ -1,0 +1,50 @@
+// The syntax is a superset of JSON. This is a javascript expression.
+{
+    cPanel: { // cPanel access information
+        host: 'example.com',
+        port: 2083,
+        path: '/',
+        user: 'user',
+        //password: 'password',
+        /*
+         * The password TODO
+         */
+    },
+    allowedExpirationDays: 40, // number of days to certif TODO
+    questionExpirationDays: 62,
+    certificates: {
+        'example.com': {
+            domains: {
+                'example.com': {
+                    path: 'public_html/example.com',
+                    install: true
+                },
+                'www.example.com': {
+                    path: 'public_html/example.com'
+                },
+                'example.eu': {
+                    path: 'public_html/example.com',
+                    install: true
+                },
+                'www.example.eu': {
+                    path: 'public_html/example.com'
+                },
+                'admin.example.com': {
+                    path: 'public_html/admin.example.com',
+                    install: true
+                }
+            }
+        },
+        'more-examples.com': {
+            domains: {
+                'more-examples.com': {
+                    path: 'public_html/more-examples',
+                    install: true
+                },
+                'www.more-examples.com': {
+                    path: 'public_html/more-examples'
+                }
+            }
+        }
+    }
+}
