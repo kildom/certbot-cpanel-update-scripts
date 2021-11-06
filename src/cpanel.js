@@ -7,7 +7,7 @@ const { conf } = require('./conf');
 function cPanel(func, params) {
 
     let data = Object.entries(params || {})
-        .map(([key, value]) => encodeURI(key) + '=' + encodeURI(value))
+        .map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(value))
         .join('&');
 
     return new Promise((resolve, reject) => {

@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+
 const { conf, updateConf } = require('./conf');
 const certbot = require('./certbot');
 const { cPanel } = require('./cpanel');
@@ -52,6 +54,31 @@ async function updateCertificates()
         console.log(`============================= Updating ${id} =============================`);
         console.log(Object.keys(cert.domains).join(' '));
         await certbot.run(Object.keys(cert.domains));
+        if (conf.dryRun) {
+            continue;
+        }
+        for (let [domainName, domain] of Object.entries(cert.domains)) {
+            if (!domain.install) {
+                continue;
+            }
+            console.log(`Installing certificate for ${domainName}`)
+            let res = await cPanel('SSL/install_ssl', {
+                cert: fs.readFileSync(`${__dirname}/../conf/live/${id}/cert.pem`, 'utf-8'),
+                domain: domainName,
+                key: fs.readFileSync(`${__dirname}/../conf/live/${id}/privkey.pem`, 'utf-8'),
+                cabundle: fs.readFileSync(`${__dirname}/../conf/live/${id}/chain.pem`, 'utf-8'),
+            });
+            console.log(`  ID:              ${res.cert_id}`);
+            console.log(`  Domain:          ${res.domain}`);
+            console.log(`  Extra domains:   ${(res.extra_certificate_domains || []).join(' ')}`);
+            console.log(`  IP:              ${res.ip}`);
+            console.log(`  Key:             ${res.key_id}`);
+            console.log(`  Message:         ${res.message}`);
+            console.log(`  Status:          ${res.statusmsg}`);
+            console.log(`  User:            ${res.user}`);
+            console.log(`  Warning domains: ${(res.warning_domains || []).join(' ')}`);
+            console.log(`  Working domains: ${(res.working_domains || []).join(' ')}`);
+        }
     }
 }
 
