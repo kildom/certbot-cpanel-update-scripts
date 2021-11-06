@@ -12,11 +12,11 @@ function prompt(prompt, password) {
             output: process.stdout
         });
         rl._writeToOutput = function _writeToOutput(stringToWrite) {
-            if (rl.password)
-                rl.output.write("*");
-            else
-                rl.output.write(stringToWrite);
-        };        
+            if (rl.password) {
+                stringToWrite = stringToWrite.replace(/[^\r\n]/g, '*');
+            }
+            rl.output.write(stringToWrite);
+        };
     }
 
     return new Promise(resolve => {

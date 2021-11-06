@@ -11,7 +11,7 @@ async function start() {
 
     try {
 
-        switch (argv[1].toLowerCase()) {
+        switch ((argv[2] || '').toLowerCase()) {
             case 'auth':
                 r = await auth.main();
                 break;
@@ -34,6 +34,8 @@ async function start() {
 }
 
 start();
+
+/*
 
 const { execSync } = require('child_process');
 const fs = require('fs');
@@ -106,3 +108,4 @@ main().then(r => {
     console.log(ex);
     process.exit(100);
 });
+*/
