@@ -33,7 +33,7 @@ async function showCertificates(ask) {
         if (daysToTheEnd <= conf.expirationDaysUpdate) {
             console.log(`    Expiration in ${daysToTheEnd} days. Doing update.`);
             cert.update = true;
-        } else if (ask && daysToTheEnd <= conf.expirationDaysAsk) {
+        } else if (ask && conf.expirationDaysAsk && daysToTheEnd <= conf.expirationDaysAsk) {
             let r = await prompt(`    Expiration in ${daysToTheEnd} days. Do you want to update (y/n)? `);
             r = r.toLowerCase();
             cert.update = r == 'y' || r == 'yes' || r == '1' || r == 't' || r == 'true';
